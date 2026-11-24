@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071018">
+<title>AI BOTS — Smart Signal Center</title>
+<style>
+:root{--bg:#050b12;--panel:#0a151f;--panel2:#0d1b27;--line:#1b3442;--muted:#8295a3;--text:#edf5f8;--cyan:#19c7dc;--green:#38df91;--blue:#287ff0;--purple:#8b72ff;--red:#ff6476}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#123342 0%,#07121b 42%,#04090f 100%);color:var(--text);font:15px/1.45 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+button{font:inherit;color:inherit;cursor:pointer}.app{max-width:520px;margin:auto;min-height:100vh;padding:16px 15px 100px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 20px}.brand{display:flex;align-items:center;gap:11px}.mark{width:42px;height:42px;border:1px solid #245064;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,#102b39,#09141e);color:var(--cyan);font-weight:900;font-size:19px;box-shadow:0 0 22px #16c9dc17}.brand h1{font-size:18px;letter-spacing:2px;margin:0;font-weight:800}.brand small{display:block;color:#8fa6b4;font-size:9px;letter-spacing:2.4px;margin-top:3px}.vip{border:1px solid #5d5128;background:#201d13;color:#e5c96c;border-radius:20px;padding:7px 11px;font-size:10px;letter-spacing:1px;font-weight:800}
+.navtabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;background:#07111a;border:1px solid var(--line);padding:5px;border-radius:14px;margin-bottom:14px}.navtabs button{border:0;background:transparent;color:#7f929e;padding:10px 2px;border-radius:10px;font-size:12px;font-weight:700}.navtabs button.active{background:linear-gradient(100deg,#087d9b,#1768ba);color:white;box-shadow:0 5px 18px #087d9b35}
+.panel{background:linear-gradient(145deg,#0d1c27,#08121b 70%);border:1px solid var(--line);border-radius:19px;padding:17px;margin-bottom:13px;box-shadow:0 12px 35px #0005}.eyebrow{font-size:10px;color:#8da3af;letter-spacing:2px;text-transform:uppercase;font-weight:700}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.live{display:inline-flex;align-items:center;gap:8px;color:var(--green);font-size:11px;letter-spacing:1.4px;font-weight:800}.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}.server{font-size:9px;color:#66808f;letter-spacing:1.5px}
+.period{margin-top:15px;border:1px solid #1b3946;background:#091720;border-radius:13px;padding:13px;display:flex;align-items:center;justify-content:space-between;gap:10px}.period strong{font-size:15px;letter-spacing:1.2px;display:block;margin-top:4px;overflow-wrap:anywhere}.copy{border:1px solid #1b8090;background:#0b3944;color:#9beaf0;padding:9px 12px;border-radius:9px;font-size:10px;font-weight:800;white-space:nowrap}
+.countdown{text-align:center;padding:19px 0 14px;color:#8196a3;font-size:10px;letter-spacing:2px}.countdown b{color:white;font-size:25px;letter-spacing:1px;margin-left:10px}
+.prediction{border:1px solid #1a4650;border-radius:17px;background:radial-gradient(ellipse at 50% 25%,#10303a 0%,#091720 55%,#07111a 100%);padding:19px 16px 17px;text-align:center}.pred-label{font-size:10px;letter-spacing:2.6px;color:#a6c6c5}.bigword{font-size:56px;line-height:1.1;font-weight:900;letter-spacing:1px;margin:12px 0 5px;color:#c6f4f2}.bigword.demo{color:#6be7d2}.sub{font-size:9px;color:#8095a2;letter-spacing:1.7px}.numbers{display:inline-block;margin:10px auto 18px;padding:9px 24px;border:1px solid #1b6677;border-radius:11px;background:#071722;font-size:22px;font-weight:800;letter-spacing:5px}.confidence{display:flex;justify-content:space-between;color:#9aabb4;font-size:10px;margin-bottom:8px}.bar{height:8px;background:#142630;border-radius:20px;overflow:hidden}.bar span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:20px}
+.notice{margin-top:12px;padding:11px 12px;border:1px solid #35414b;border-radius:11px;background:#101a22;color:#a9b7c0;font-size:11px;line-height:1.5}
+.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{background:#0a1721;border:1px solid #1a3442;border-radius:13px;padding:13px}.metric b{font-size:22px;display:block;margin-top:5px}.metric small{font-size:9px;color:#8295a3;letter-spacing:1px}
+.section-title{font-size:12px;letter-spacing:1.8px;font-weight:800;margin:0 0 14px}.section-title span{color:#79909d;font-size:9px;font-weight:600;float:right;letter-spacing:1px}
+.marketline{display:flex;align-items:center;justify-content:space-between}.marketline strong{font-size:13px}.marketline small{color:#8095a3;font-size:10px}.spark{height:34px;width:100px;border-bottom:1px solid #168d9d;position:relative;overflow:hidden}.spark:after{content:"";position:absolute;inset:7px 0 0;background:linear-gradient(140deg,transparent 15%,#18c7dc 16%,transparent 18%,transparent 33%,#18c7dc 35%,transparent 37%,transparent 52%,#18c7dc 54%,transparent 56%,transparent 70%,#18c7dc 72%,transparent 74%);opacity:.85}
+.history-list{display:grid;gap:8px}.history-item{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px;border:1px solid #1a303c;border-radius:12px;background:#09151e}.history-item strong{font-size:12px}.history-item small{display:block;color:#8295a3;font-size:9px;margin-top:3px}.tag{font-size:10px;font-weight:800;padding:6px 9px;border-radius:20px;background:#102a23;color:#48e49a;border:1px solid #1d6549}.tag.loss{background:#2b151c;color:#ff7785;border-color:#71303e}.tag.pending{background:#20252b;color:#a9b4bd;border-color:#39434c}
+.filters{display:flex;gap:7px;margin-bottom:13px}.filters button{flex:1;padding:9px;border:1px solid #1b3442;border-radius:9px;background:#09151e;color:#8295a3;font-size:10px;font-weight:800}.filters button.active{background:#0d6174;border-color:#168ba0;color:white}
+ .frequency-row{display:grid;grid-template-columns:22px 1fr 30px;gap:10px;align-items:center;padding:7px 2px;font-size:11px;color:#a9bac3}.frequency-track{height:7px;background:#142630;border-radius:20px;overflow:hidden}.frequency-track span{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:20px}.frequency-count{text-align:right;color:#dce9ed;font-weight:800}
+.chart{height:150px;border:1px solid #1a3442;border-radius:13px;background:repeating-linear-gradient(to bottom,transparent 0 36px,#1a303a 37px),repeating-linear-gradient(to right,transparent 0 48px,#152a35 49px);position:relative;overflow:hidden;padding:10px}.chart svg{width:100%;height:100%}.settings-row{padding:14px 2px;border-bottom:1px solid #172b36;display:flex;align-items:center;justify-content:space-between;font-size:12px}.settings-row:last-child{border:0}.switch{width:39px;height:22px;border:0;border-radius:20px;background:#35434c;padding:3px}.switch:after{content:"";display:block;width:16px;height:16px;background:#d7e1e5;border-radius:50%;transition:.2s}.switch.on{background:#087d69}.switch.on:after{transform:translateX(17px);background:#b6ffdc}
+.bottom{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);background:#07121bea;backdrop-filter:blur(18px);border:1px solid #1b3442;border-bottom:0;border-radius:19px 19px 0 0}.bottom button{background:none;border:0;color:#718693;font-size:9px;font-weight:700;padding:5px}.bottom button span{display:block;font-size:19px;margin-bottom:3px}.bottom button.active{color:#55dfb5}
+.page{display:none}.page.active{display:block}.primary{width:100%;border:1px solid #167c91;border-radius:12px;background:linear-gradient(100deg,#087f9b,#176dbd);padding:14px;font-weight:800;font-size:12px;letter-spacing:.5px;margin-top:12px}.empty{color:#8fa2ad;text-align:center;padding:22px 10px;font-size:12px}
+@media(min-width:600px){.app{padding-top:28px}.bottom{bottom:16px;border-radius:18px;border-bottom:1px solid #1b3442}.app{padding-bottom:120px}}
+
+.bar-track{height:10px;background:#102330;border-radius:20px;overflow:hidden;border:1px solid #1b3442}
+.bar-fill{height:100%;background:linear-gradient(90deg,#087f9b,#19c7dc);border-radius:20px;min-width:0;transition:width .25s ease}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brand"><div class="mark">AI</div><div><h1>AI BOTS</h1><small>SMART SIGNAL CENTER</small></div></div>
+ <div class="vip">✦ PREMIUM UI</div>
+</header>
+<nav class="navtabs" aria-label="Main navigation">
+ <button class="active" data-page="home">HOME</button><button data-page="history">HISTORY</button><button data-page="stats">STATS</button><button data-page="chart">AI CHART</button><button data-page="chat">AI CHAT</button><button data-page="settings">SETTINGS</button>
+</nav>
+
+<main>
+<section class="page active" id="home">
+ <div class="panel">
+  <div class="row"><div class="live"><i class="dot"></i> DEMO MODE</div><div class="server" id="connectionStatus">DATA CONNECTION: DEMO</div></div>
+  <div class="settings-row" style="gap:10px;padding:12px 0">
+   <label style="flex:1;color:#9aabb4;font-size:11px">PLATFORM
+    <select id="marketSelect" style="display:block;width:100%;margin-top:6px;padding:10px;background:#091720;color:#edf5f8;border:1px solid #1b3946;border-radius:9px">
+     <option value="DEMO">DEMO MARKET</option><option value="DKWIN">DKWIN WINGO 1 MINUTE</option><option value="AMARCLUB">AMARCLUB (UI PREVIEW)</option>
+    </select>
+   </label>
+   <label style="flex:1;color:#9aabb4;font-size:11px">ROUND LENGTH
+    <select id="durationSelect" style="display:block;width:100%;margin-top:6px;padding:10px;background:#091720;color:#edf5f8;border:1px solid #1b3946;border-radius:9px">
+     <option value="60">1 MINUTE</option><option value="180">3 MINUTES</option><option value="300">5 MINUTES</option>
+    </select>
+   </label>
+  </div>
+  <div class="period"><div><div class="eyebrow" id="periodLabel">DEMO ROUND ID</div><strong id="period">WAITING FOR DATA…</strong></div><button class="copy" data-copy="period">COPY ID</button></div>
+  <div class="countdown">ROUND TIMER <b id="timer">60</b><span> SEC</span></div>
+  <div class="prediction">
+   <div class="pred-label">DEMO SAMPLE PREVIEW</div>
+    <div id="selectedMarketLabel" class="sub" style="margin-top:7px">DEMO MARKET · 1 MINUTE</div>
+   <div class="bigword demo">READY</div>
+   <div class="sub">RANDOM EDUCATIONAL SAMPLE · NOT A SIGNAL</div>
+   <div class="numbers">— —</div>
+   <div class="confidence"><span>SIMULATION STATUS</span><b>READY</b></div>
+   <div class="bar"><span></span></div>
+  </div>
+  <div class="notice" id="dataNotice">এটি কেবল শিক্ষামূলক Demo Simulation। এখানে কোনো বাস্তব AI prediction, betting signal বা জয়ের নিশ্চয়তা নেই।</div>
+ </div>
+ <div class="metrics">
+  <div class="metric"><small>TOTAL DEMO ROUNDS</small><b id="demoRoundCount">0</b></div>
+  <div class="metric"><small>DEMO SAMPLES</small><b id="demoSampleCount">0</b></div>
+ </div>
+ <div class="panel" style="margin-top:13px">
+  <h3 class="section-title">MARKET WATCH <span>PREVIEW</span></h3>
+  <div class="marketline"><div><strong>BTC / USDT</strong><br><small>Market feed not connected</small></div><div class="spark"></div></div>
+ </div>
+ <div class="panel">
+  <h3 class="section-title">SESSION OVERVIEW</h3>
+  <div class="metrics">
+   <div class="metric"><small>ROUNDS</small><b>—</b></div><div class="metric"><small>RESULTS</small><b>Pending</b></div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="history">
+ <div class="panel">
+  <div class="row"><h3 class="section-title" style="margin:0">SIGNAL HISTORY</h3><span class="eyebrow">SEPARATE MODES</span></div>
+  <div class="filters" style="margin-top:16px"><button class="active" data-filter="all">ALL</button><button data-filter="demo">DEMO</button><button data-filter="minute">1 MINUTE</button></div>
+  <div class="history-list" id="historyList"></div>
+  <div class="notice">উপরের DEMO ট্যাবের সব রেকর্ড শিক্ষামূলক random sample। BIG/SMALL কেবল নমুনার ধরন; এগুলো বাস্তব ফলের সঙ্গে যাচাই করা WIN/LOSS নয়। DKWIN অংশে শুধু Period পর্যবেক্ষণ থাকবে।</div>
+ </div>
+</section>
+
+<section class="page" id="stats">
+ <div class="panel">
+  <div class="row"><h3 class="section-title" style="margin:0">AI STATISTICS</h3><span class="eyebrow">VERIFIED DATA ONLY</span></div>
+  <div class="filters" style="margin-top:16px">
+   <button class="active" data-stats-range="all">ALL TIME</button>
+   <button data-stats-range="today">TODAY</button>
+   <button data-stats-range="week">7 DAYS</button>
+  </div>
+  <div class="metrics">
+   <div class="metric"><small>TOTAL SIGNALS</small><b id="statTotal">0</b></div>
+   <div class="metric"><small>VERIFIED ACCURACY</small><b id="statAccuracy">—</b></div>
+   <div class="metric"><small>VERIFIED WINS</small><b id="statWins">0</b></div>
+   <div class="metric"><small>VERIFIED LOSSES</small><b id="statLosses">0</b></div>
+  </div>
+  <div class="notice" id="statsNotice">শুধু যাচাই হওয়া WIN/LOSS সিগন্যালের পরিসংখ্যান এখানে দেখানো হবে।</div>
+ </div>
+ <div class="panel">
+  <h3 class="section-title">NUMBER FREQUENCY <span>0–9</span></h3>
+  <div id="numberFrequency" class="history-list"><div class="empty">যাচাইকৃত নম্বরের ডেটা এখনো নেই।</div></div>
+ </div>
+ <div class="panel">
+  <h3 class="section-title">RESULT BREAKDOWN</h3>
+  <div class="metrics">
+   <div class="metric"><small>BIG WINS</small><b id="statBigWins">0</b></div>
+   <div class="metric"><small>SMALL WINS</small><b id="statSmallWins">0</b></div>
+  </div>
+  <div class="notice">DEMO sample কেবল সিমুলেশন। DKWIN পর্যবেক্ষণ রেকর্ডগুলো বাস্তব WIN/LOSS নয়; তাই Accuracy-তে যোগ হয় না।</div>
+ </div>
+</section>
+
+<section class="page" id="chart">
+ <div class="panel">
+  <div class="row"><h3 class="section-title" style="margin:0">AI CHART</h3><span class="eyebrow">DUAL ANALYSIS ENGINE</span></div>
+  <p class="notice" style="margin-top:12px">DEMO-তে সাধারণ বিশ্লেষণ এবং DKWIN 1 MINUTE-এ API থেকে পাওয়া অতীত ফলাফলের বিস্তারিত পরিসংখ্যান দেখানো হবে। এটি কোনো ভবিষ্যৎ ফলাফল বা জয়ের নিশ্চয়তা নয়।</p>
+  <div class="filters" style="margin-top:14px">
+   <button class="active" data-chart-filter="demo">DEMO · BASIC</button>
+   <button data-chart-filter="minute">1 MIN · ADVANCED</button>
+  </div>
+  <div id="digitChart">
+   <div class="row"><strong style="font-size:12px">DEMO NUMBER FREQUENCY</strong><span class="eyebrow">0–9</span></div>
+   <div id="chartBars" class="history-list" style="margin-top:12px"><div class="empty">চার্ট তৈরি করতে Demo round সম্পন্ন করো।</div></div>
+   <div class="notice">DEMO বিশ্লেষণটি নমুনা ডেটার বণ্টন দেখায়।</div>
+  </div>
+  <div id="minuteChart" style="display:none">
+   <div class="metrics">
+    <div class="metric"><small>HISTORY SAMPLES</small><b id="minuteSamples">0</b></div>
+    <div class="metric"><small>BIG / SMALL</small><b id="minuteBigSmall">—</b></div>
+    <div class="metric"><small>EVEN / ODD</small><b id="minuteEvenOdd">—</b></div>
+    <div class="metric"><small>LAST RESULT</small><b id="minuteLatest">—</b></div>
+   </div>
+   <div style="margin-top:16px"><div class="row"><strong style="font-size:12px">HISTORICAL DIGIT DISTRIBUTION</strong><span class="eyebrow">API DATA · 0–9</span></div>
+    <div id="minuteDigitBars" class="history-list" style="margin-top:12px"><div class="empty">DKWIN 1 Minute নির্বাচন করে API ডেটা লোড করো।</div></div>
+   </div>
+   <div style="margin-top:16px"><strong style="font-size:12px">RECENT OBSERVATIONS</strong>
+    <div id="minuteRecent" class="history-list" style="margin-top:10px"><div class="empty">এখনো কোনো ফলাফল পাওয়া যায়নি।</div></div>
+   </div>
+   <div class="notice" id="minuteAnalysisNote">API থেকে যাচাইযোগ্য অতীত ফলাফল পাওয়া গেলে এখানে বিশ্লেষণ দেখানো হবে।</div>
+  </div>
+ </div>
+ <div class="panel">
+  <h3 class="section-title">HOW TO READ THIS CHART</h3>
+  <div class="notice">• DEMO · BASIC: Demo round-এর নমুনা সংখ্যার বণ্টন।<br>• 1 MIN · ADVANCED: API-তে পাওয়া অতীত ফলাফলের সংখ্যা, Big/Small ও Even/Odd বণ্টন এবং সাম্প্রতিক রেকর্ড।<br>• এগুলো অতীত ডেটার বর্ণনামূলক বিশ্লেষণ; পরের ফলাফল অনুমান বা নিশ্চিত করে না। API ডেটা না এলে কোনো ফল বানিয়ে দেখানো হবে না।</div>
+ </div>
+</section>
+
+
+<section class="page" id="chat">
+ <div class="panel">
+  <div class="row"><h3 class="section-title" style="margin:0">AI CHAT</h3><span class="eyebrow">PRIVATE ACCESS</span></div>
+  <p class="notice" style="margin-top:12px">AI-এর সঙ্গে কথা বলতে ব্যক্তিগত পাসওয়ার্ড দিয়ে প্রবেশ করো। AI তোমার প্রশ্নের উত্তর সার্ভার থেকে দেবে; সত্যতা যাচাই না হলে অনিশ্চয়তা জানাবে। পাসওয়ার্ড এই HTML ফাইলে রাখা হবে না।</p>
+  <div id="chatLocked" style="margin-top:14px">
+   <label class="eyebrow" for="chatPassword">OWNER PASSWORD</label>
+   <input id="chatPassword" type="password" autocomplete="current-password" placeholder="পাসওয়ার্ড লিখো" style="width:100%;margin:8px 0 10px;padding:13px;border-radius:12px;border:1px solid var(--line);background:#07131d;color:var(--text)">
+   <button id="chatLogin" class="primary" style="width:100%">UNLOCK AI CHAT</button>
+   <div id="chatAuthStatus" class="empty" aria-live="polite">সার্ভার সংযোগ সেটআপ করা হয়নি।</div>
+  </div>
+  <div id="chatUnlocked" style="display:none;margin-top:14px">
+   <div class="row"><span class="live"><i class="dot"></i> PRIVATE SESSION</span><button id="chatLogout" class="secondary">LOCK</button></div>
+   <div id="chatMessages" class="history-list" style="margin:12px 0;min-height:150px;max-height:330px;overflow:auto">
+    <div class="notice">স্বাগতম! ডেটা বিশ্লেষণ, চার্ট বোঝা বা শেখার বিষয়ে প্রশ্ন করতে পারো।</div>
+   </div>
+   <textarea id="chatInput" rows="3" placeholder="AI-কে প্রশ্ন লিখো..." style="width:100%;resize:vertical;padding:12px;border-radius:12px;border:1px solid var(--line);background:#07131d;color:var(--text)"></textarea>
+   <button id="chatSend" class="primary" style="width:100%;margin-top:9px">SEND MESSAGE</button>
+   <div id="chatSendStatus" class="empty" aria-live="polite"></div>
+  </div>
+ </div>
+ <div class="panel">
+  <h3 class="section-title">SECURITY NOTE</h3>
+  <div class="notice">• পাসওয়ার্ড শুধু নিরাপদ সার্ভারে সংরক্ষণ করতে হবে (হ্যাশ আকারে)।<br>• AI Chat ব্যবহারের আগে সার্ভার পাসওয়ার্ড যাচাই করবে।<br>• এই ফাইল একা পাসওয়ার্ড গোপন রাখতে পারে না; ব্যাকএন্ড সংযোগ ছাড়া Chat চালু হবে না।</div>
+ </div>
+</section>
+
+<section class="page" id="settings">
+ <div class="panel">
+  <h3 class="section-title">AI CHAT SERVER</h3>
+  <p class="notice">তোমার নিরাপদ backend-এর HTTPS URL এখানে বসাও। সার্ভার ছাড়া পাসওয়ার্ড যাচাই বা AI উত্তর কাজ করবে না।</p>
+  <input id="aiApiBaseInput" type="url" placeholder="https://your-secure-server.example" style="width:100%;margin:8px 0;padding:12px;border-radius:12px;border:1px solid var(--line);background:#07131d;color:var(--text)">
+  <button id="saveAiApiBase" class="primary" style="width:100%">SAVE SERVER URL</button>
+  <div id="aiApiBaseStatus" class="empty"></div>
+ </div>
+
+ <div class="panel">
+  <h3 class="section-title">PREFERENCES</h3>
+  <div class="settings-row"><span>Notifications</span><button class="switch on" aria-label="Toggle notifications"></button></div>
+  <div class="settings-row"><span>Sound</span><button class="switch" aria-label="Toggle sound"></button></div>
+  <div class="settings-row"><span>Dark appearance</span><button class="switch on" aria-label="Toggle dark appearance"></button></div>
+  <div class="settings-row"><span>Language</span><strong>বাংলা / English</strong></div>
+  <div class="settings-row"><span>Data connection</span><strong style="color:#ffbf69">Not connected</strong></div>
+  <div class="settings-row"><span>App version</span><strong>0.1 UI PREVIEW</strong></div>
+ </div>
+ <div class="panel"><h3 class="section-title">ABOUT AI BOTS</h3><p style="color:#8fa2ad;font-size:12px;margin:0">AI BOTS — Smart Signal Center. এটি বর্তমানে একটি ইন্টারফেস প্রোটোটাইপ। কোনো বাস্তব সিগন্যাল, বিনিয়োগ পরামর্শ বা লাভের প্রতিশ্রুতি দেয় না।</p></div>
+</section>
+</main>
+</div>
+<nav class="bottom">
+ <button class="active" data-page="home"><span>⌂</span>Home</button><button data-page="history"><span>◷</span>History</button><button data-page="stats"><span>▥</span>Stats</button><button data-page="settings"><span>⚙</span>Settings</button>
+</nav>
+<script>
+(() => {
+ 'use strict';
+ const pages = [...document.querySelectorAll('.page')];
+ const nav = [...document.querySelectorAll('[data-page]')];
+
+ // AI CHAT: authentication and messages are handled by a secure server.
+ // Set this to your deployed HTTPS backend URL. Never put the owner password here.
+ const AI_API_BASE = localStorage.getItem('ai_bots_api_base') || '';
+ let aiChatToken = sessionStorage.getItem('ai_bots_chat_token') || '';
+ const chatLocked = document.getElementById('chatLocked');
+ const chatUnlocked = document.getElementById('chatUnlocked');
+ const chatAuthStatus = document.getElementById('chatAuthStatus');
+ const chatSendStatus = document.getElementById('chatSendStatus');
+ const chatMessages = document.getElementById('chatMessages');
+
+ function setChatSession(token) {
+   aiChatToken = token || '';
+   if (aiChatToken) sessionStorage.setItem('ai_bots_chat_token', aiChatToken);
+   else sessionStorage.removeItem('ai_bots_chat_token');
+   chatLocked.style.display = aiChatToken ? 'none' : '';
+   chatUnlocked.style.display = aiChatToken ? '' : 'none';
+ }
+ function addChatMessage(who, message) {
+   const item = document.createElement('div');
+   item.className = 'notice';
+   item.style.marginBottom = '8px';
+   const label = document.createElement('strong');
+   label.textContent = who + ': ';
+   const body = document.createElement('span');
+   body.textContent = message;
+   item.append(label, body);
+   chatMessages.appendChild(item);
+   chatMessages.scrollTop = chatMessages.scrollHeight;
+ }
+ async function chatRequest(path, payload) {
+   if (!AI_API_BASE) throw new Error('AI সার্ভার URL সেট করা হয়নি। আগে নিরাপদ backend তৈরি ও deploy করতে হবে।');
+   const response = await fetch(AI_API_BASE.replace(/\/$/, '') + path, {
+     method: 'POST',
+     headers: {'Content-Type':'application/json', ...(aiChatToken ? {'Authorization':'Bearer ' + aiChatToken} : {})},
+     body: JSON.stringify(payload)
+   });
+   const data = await response.json().catch(() => ({}));
+   if (!response.ok) throw new Error(data.error || 'সার্ভার অনুরোধ গ্রহণ করেনি।');
+   return data;
+ }
+ document.getElementById('chatLogin').addEventListener('click', async () => {
+   const password = document.getElementById('chatPassword').value;
+   if (!password) { chatAuthStatus.textContent = 'আগে পাসওয়ার্ড লিখো।'; return; }
+   const button = document.getElementById('chatLogin');
+   button.disabled = true; chatAuthStatus.textContent = 'যাচাই হচ্ছে...';
+   try {
+     const data = await chatRequest('/api/ai-auth', {password});
+     if (!data.token) throw new Error('সার্ভার নিরাপদ session token দেয়নি।');
+     setChatSession(data.token);
+     document.getElementById('chatPassword').value = '';
+     chatAuthStatus.textContent = '';
+   } catch (error) {
+     chatAuthStatus.textContent = error.message;
+   } finally { button.disabled = false; }
+ });
+ document.getElementById('chatLogout').addEventListener('click', () => setChatSession(''));
+ document.getElementById('chatSend').addEventListener('click', async () => {
+   const input = document.getElementById('chatInput');
+   const message = input.value.trim();
+   if (!message) return;
+   const button = document.getElementById('chatSend');
+   button.disabled = true; chatSendStatus.textContent = 'AI উত্তর তৈরি করছে...';
+   addChatMessage('তুমি', message); input.value = '';
+   try {
+     const data = await chatRequest('/api/ai-chat', {message});
+     if (typeof data.reply !== 'string' || !data.reply) throw new Error('সার্ভার থেকে উত্তর পাওয়া যায়নি।');
+     addChatMessage('AI', data.reply);
+     chatSendStatus.textContent = '';
+   } catch (error) {
+     addChatMessage('সিস্টেম', error.message);
+     chatSendStatus.textContent = 'সংযোগ বা সার্ভার সেটআপ পরীক্ষা করো।';
+   } finally { button.disabled = false; }
+ });
+ if (aiChatToken) setChatSession(aiChatToken);
+
+ const apiBaseInput = document.getElementById('aiApiBaseInput');
+ const apiBaseStatus = document.getElementById('aiApiBaseStatus');
+ if (apiBaseInput) {
+   apiBaseInput.value = AI_API_BASE;
+   document.getElementById('saveAiApiBase').addEventListener('click', () => {
+     const value = apiBaseInput.value.trim().replace(/\/$/, '');
+     if (value && !/^https:\/\//i.test(value)) {
+       apiBaseStatus.textContent = 'নিরাপত্তার জন্য HTTPS URL ব্যবহার করো।';
+       return;
+     }
+     localStorage.setItem('ai_bots_api_base', value);
+     apiBaseStatus.textContent = 'URL সংরক্ষিত। পরিবর্তন কার্যকর করতে Chat পেজ নতুন করে খোলো।';
+     location.reload();
+   });
+ }
+
+
+ const timerEl = document.getElementById('timer');
+ const periodEl = document.getElementById('period');
+ const marketSelect = document.getElementById('marketSelect');
+ const durationSelect = document.getElementById('durationSelect');
+ const marketLabel = document.getElementById('selectedMarketLabel');
+ const historyList = document.getElementById('historyList');
+ const connectionStatus = document.getElementById('connectionStatus');
+ const periodLabel = document.getElementById('periodLabel');
+ const dataNotice = document.getElementById('dataNotice');
+ const API_URL = 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json';
+ let liveFetchBusy = false;
+ let demoRound = 1;
+
+ /** @param {string} id */
+ function showPage(id) {
+   pages.forEach(p => p.classList.toggle('active', p.id === id));
+   nav.forEach(b => b.classList.toggle('active', b.dataset.page === id));
+   window.scrollTo({top:0, behavior:'smooth'});
+ }
+ nav.forEach(b => b.addEventListener('click', () => showPage(b.dataset.page)));
+
+ const STORAGE_KEY = 'ai_bots_history_v2';
+ let records = [];
+ try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); if (Array.isArray(saved)) records = saved; } catch (_) {}
+ function saveRecords(){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(records.slice(0,300)));}catch(_){} }
+ let currentHistoryFilter='all';
+ function renderHistory(filter='all'){
+   currentHistoryFilter=filter; historyList.replaceChildren();
+   const shown=records.filter(r=>filter==='demo'?r.mode==='DEMO':filter==='minute'?r.mode==='DKWIN_1M':true);
+   if(!shown.length){const empty=document.createElement('div');empty.className='empty';empty.textContent=filter==='demo'?'এখনো কোনো Demo round তৈরি হয়নি।':filter==='minute'?'এখনো DKWIN 1 Minute Period পর্যবেক্ষণ নেই।':'History এখনো খালি।';historyList.appendChild(empty);return;}
+   shown.forEach(r=>{
+     const el=document.createElement('div');el.className='history-item';
+     const info=document.createElement('div');const type=document.createElement('strong');
+     type.textContent=r.mode==='DEMO'?(r.type||'SAMPLE'):'DKWIN · 1 MIN';
+     const time=document.createElement('small');time.textContent=(r.time||'')+(r.period?' · Period '+r.period:'');info.append(type,time);
+     const pair=document.createElement('strong');pair.textContent=r.pair||'—';
+     const tag=document.createElement('span');tag.className='tag'+(r.mode==='DEMO'?'':' pending');tag.textContent=r.mode==='DEMO'?'SAMPLE':'OBSERVED';
+     el.append(info,pair,tag);historyList.appendChild(el);
+   });
+ }
+ function addRecord(record){records.unshift(record);records=records.slice(0,300);saveRecords();renderHistory(currentHistoryFilter);renderStats();renderChart();}
+ renderHistory();
+
+ let chartFilter = 'demo';
+ let dkwinHistory = [];
+ function getResultDigit(item) {
+   const candidates = [item?.number, item?.openNumber, item?.resultNumber, item?.winningNumber, item?.result];
+   for (const candidate of candidates) { const match = String(candidate ?? '').match(/[0-9]/); if (match) return Number(match[0]); }
+   return null;
+ }
+ function renderFrequency(host, counts) {
+   host.replaceChildren(); const max = Math.max(1, ...counts);
+   if (!counts.some(Boolean)) { const empty=document.createElement('div'); empty.className='empty'; empty.textContent='যাচাইযোগ্য সংখ্যার ডেটা পাওয়া যায়নি।'; host.appendChild(empty); return; }
+   counts.forEach((count,digit) => {
+     const row=document.createElement('div'); row.className='frequency-row';
+     const label=document.createElement('b'); label.textContent=String(digit);
+     const track=document.createElement('div'); track.className='bar-track';
+     const fill=document.createElement('div'); fill.className='bar-fill'; fill.style.width=(count/max*100)+'%'; track.appendChild(fill);
+     const value=document.createElement('span'); value.className='frequency-count'; value.textContent=String(count);
+     row.append(label,track,value); host.appendChild(row);
+   });
+ }
+ function renderChart() {
+   const demoRecords=records.filter(r=>r.mode==='DEMO'), demoCounts=Array(10).fill(0);
+   demoRecords.forEach(r=>String(r.pair||'').match(/[0-9]/g)?.forEach(d=>demoCounts[Number(d)]++));
+   renderFrequency(document.getElementById('chartBars'),demoCounts);
+   const demoCountEl=document.getElementById('demoRoundCount');
+   const demoSampleEl=document.getElementById('demoSampleCount');
+   if(demoCountEl) demoCountEl.textContent=String(demoRecords.length);
+   if(demoSampleEl) demoSampleEl.textContent=String(demoRecords.length);
+   const valid=dkwinHistory.map(item=>({item,digit:getResultDigit(item)})).filter(x=>x.digit!==null);
+   const counts=Array(10).fill(0); valid.forEach(x=>counts[x.digit]++);
+   renderFrequency(document.getElementById('minuteDigitBars'),counts);
+   document.getElementById('minuteSamples').textContent=String(valid.length);
+   const big=valid.filter(x=>x.digit>=5).length, small=valid.length-big;
+   const even=valid.filter(x=>x.digit%2===0).length, odd=valid.length-even;
+   document.getElementById('minuteBigSmall').textContent=valid.length?big+' / '+small:'—';
+   document.getElementById('minuteEvenOdd').textContent=valid.length?even+' / '+odd:'—';
+   document.getElementById('minuteLatest').textContent=valid.length?String(valid[0].digit):'—';
+   const recent=document.getElementById('minuteRecent'); recent.replaceChildren();
+   if(!valid.length) {
+     const empty=document.createElement('div'); empty.className='empty'; empty.textContent='API থেকে ফলাফলের নম্বর শনাক্ত করা যায়নি।'; recent.appendChild(empty);
+     document.getElementById('minuteAnalysisNote').textContent='Period API সংযুক্ত থাকলেও ফলাফলের নম্বরের ফিল্ড শনাক্ত হয়নি। কোনো অনুমানভিত্তিক ডেটা দেখানো হচ্ছে না।';
+   } else {
+     valid.slice(0,12).forEach(({item,digit})=>{
+       const row=document.createElement('div'); row.className='history-item';
+       const name=document.createElement('strong'); name.textContent='Period '+String(item.issueNumber||item.period||'—');
+       const value=document.createElement('strong'); value.textContent='Result: '+digit; row.append(name,value); recent.appendChild(row);
+     });
+     document.getElementById('minuteAnalysisNote').textContent='বিশ্লেষণটি API থেকে পাওয়া '+valid.length+'টি অতীত ফলাফলের ওপর ভিত্তি করে। Big/Small: 5–9 / 0–4। এটি পরবর্তী ফলাফলের পূর্বাভাস নয়।';
+   }
+   const modeBars=document.getElementById('modeBars');
+   if(modeBars) {
+     modeBars.replaceChildren();
+     [['DEMO ROUNDS',demoRecords.length],['DKWIN PERIODS OBSERVED',records.filter(r=>r.mode==='DKWIN_1M').length]].forEach(([label,count])=>{
+       const row=document.createElement('div'); row.className='history-item';
+       const name=document.createElement('strong'); name.textContent=label;
+       const value=document.createElement('strong'); value.textContent=String(count); row.append(name,value); modeBars.appendChild(row);
+     });
+   }
+ }
+ document.querySelectorAll('[data-chart-filter]').forEach(button => {
+   button.addEventListener('click', () => {
+     chartFilter = button.dataset.chartFilter;
+     document.querySelectorAll('[data-chart-filter]').forEach(b => b.classList.toggle('active', b === button));
+     document.getElementById('digitChart').style.display = chartFilter === 'demo' ? '' : 'none';
+     document.getElementById('modeChart').style.display = chartFilter === 'mode' ? '' : 'none';
+     renderChart();
+   });
+ });
+ renderChart();
+
+  // AI Statistics: calculate only from verified WIN/LOSS history.
+  let statsRange = 'all';
+  function renderStats() {
+    const now = Date.now();
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const weekStart = now - 7 * 24 * 60 * 60 * 1000;
+    const verified = records.filter(r => {
+      const result = String(r.result || '').toUpperCase();
+      if (result !== 'WIN' && result !== 'LOSS') return false;
+      const stamp = r.timestamp ? new Date(r.timestamp).getTime() : NaN;
+      if (statsRange === 'today') return Number.isFinite(stamp) && stamp >= today.getTime();
+      if (statsRange === 'week') return Number.isFinite(stamp) && stamp >= weekStart;
+      return true;
+    });
+    const wins = verified.filter(r => String(r.result).toUpperCase() === 'WIN');
+    const losses = verified.filter(r => String(r.result).toUpperCase() === 'LOSS');
+    const total = verified.length;
+    document.getElementById('statTotal').textContent = String(total);
+    document.getElementById('statAccuracy').textContent = total ? Math.round(wins.length / total * 100) + '%' : '—';
+    document.getElementById('statWins').textContent = String(wins.length);
+    document.getElementById('statLosses').textContent = String(losses.length);
+    document.getElementById('statBigWins').textContent = String(wins.filter(r => String(r.type).toUpperCase() === 'BIG').length);
+    document.getElementById('statSmallWins').textContent = String(wins.filter(r => String(r.type).toUpperCase() === 'SMALL').length);
+    document.getElementById('statsNotice').textContent = total
+      ? 'হিসাবটি ' + total + 'টি যাচাইকৃত রেকর্ড থেকে তৈরি। Demo/Pending বাদ রাখা হয়েছে।'
+      : 'এই সময়সীমায় কোনো যাচাইকৃত WIN/LOSS রেকর্ড নেই। তাই Accuracy দেখানো হচ্ছে না।';
+
+    const counts = Array(10).fill(0);
+    verified.forEach(r => {
+      const values = Array.isArray(r.numbers) ? r.numbers : (String(r.pair || '').match(/[0-9]/g) || []);
+      values.forEach(n => {
+        const value = Number(n);
+        if (Number.isInteger(value) && value >= 0 && value <= 9) counts[value]++;
+      });
+    });
+    const max = Math.max(1, ...counts);
+    const host = document.getElementById('numberFrequency');
+    host.replaceChildren();
+    if (!counts.some(Boolean)) {
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.textContent = 'যাচাইকৃত নম্বরের ডেটা এখনো নেই।';
+      host.appendChild(empty);
+    } else {
+      counts.forEach((count, number) => {
+        const row = document.createElement('div');
+        row.className = 'frequency-row';
+        const label = document.createElement('strong');
+        label.textContent = String(number);
+        const track = document.createElement('div');
+        track.className = 'frequency-track';
+        const fill = document.createElement('span');
+        fill.style.width = (count / max * 100) + '%';
+        track.appendChild(fill);
+        const amount = document.createElement('span');
+        amount.className = 'frequency-count';
+        amount.textContent = String(count);
+        row.append(label, track, amount);
+        host.appendChild(row);
+      });
+    }
+  }
+
+  document.querySelectorAll('[data-stats-range]').forEach(button => {
+    button.addEventListener('click', () => {
+      document.querySelectorAll('[data-stats-range]').forEach(item => item.classList.remove('active'));
+      button.classList.add('active');
+      statsRange = button.dataset.statsRange;
+      renderStats();
+    });
+  });
+  renderStats();
+
+document.querySelectorAll('[data-filter]').forEach(b => {
+   b.addEventListener('click', () => {
+     document.querySelectorAll('[data-filter]').forEach(x => x.classList.remove('active'));
+     b.classList.add('active');
+     renderHistory(b.dataset.filter);
+      renderStats();
+   });
+ });
+
+ document.querySelectorAll('.switch').forEach(b => {
+   b.addEventListener('click', () => {
+     b.classList.toggle('on');
+     b.setAttribute('aria-pressed', String(b.classList.contains('on')));
+   });
+ });
+
+ /** @param {string} text */
+ async function copyText(text) {
+   if (!navigator.clipboard || !window.isSecureContext) {
+     throw new Error('Clipboard API requires a secure browser context');
+   }
+   await navigator.clipboard.writeText(text);
+   return true;
+ }
+
+ document.querySelectorAll('[data-copy]').forEach(b => {
+   b.addEventListener('click', async () => {
+     const original = b.textContent;
+     try {
+       await copyText(periodEl.textContent);
+       b.textContent = 'COPIED';
+     } catch (e) {
+       b.textContent = 'COPY FAILED';
+     }
+     window.setTimeout(() => b.textContent = original, 1400);
+   });
+ });
+
+ let duration = Number(durationSelect.value);
+ let seconds = duration;
+
+ function updateTimer() {
+   if (marketSelect.value === 'DKWIN' && duration === 60) {
+     const left = 60 - new Date().getSeconds();
+     timerEl.textContent = String(left === 60 ? 0 : left).padStart(2,'0');
+   } else {
+     timerEl.textContent = String(seconds).padStart(2,'0');
+   }
+ }
+ function setDemoPeriod() {
+   const d = new Date();
+   const date = [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('');
+   const time = [String(d.getHours()).padStart(2,'0'),String(d.getMinutes()).padStart(2,'0')].join('');
+   periodLabel.textContent = 'DEMO ROUND ID';
+   periodEl.textContent = 'DEMO-' + date + '-' + time + '-' + String(demoRound).padStart(3,'0');
+   connectionStatus.textContent = 'DATA CONNECTION: DEMO';
+   dataNotice.textContent = 'এটি Demo Period Number; কোনো বাস্তব মার্কেটের Issue Number নয়। Demo signal-ও বাস্তব ফলাফলের নিশ্চয়তা দেয় না।';
+ }
+ function createDemoRound() {
+   const type=Math.random()<0.5?'BIG':'SMALL', a=Math.floor(Math.random()*10), b=Math.floor(Math.random()*10), stamp=new Date();
+   addRecord({id:'D-'+stamp.getTime()+'-'+demoRound,mode:'DEMO',type,pair:a+' · '+b,time:stamp.toLocaleString(),result:'SIMULATED_SAMPLE',timestamp:stamp.toISOString(),numbers:[a,b]});
+   document.querySelector('.bigword').textContent=type;
+   document.querySelector('.pred-label').textContent='SIMULATED DEMO SAMPLE';
+   document.querySelector('.sub').textContent='RANDOM SAMPLE · NOT A BETTING SIGNAL';
+   document.querySelector('.numbers').textContent=a+'  '+b;
+   document.querySelector('.confidence b').textContent='SIMULATION';
+   dataNotice.textContent='Demo sample সম্পন্ন হয়েছে। নমুনাটি History ও Analysis-এ সংরক্ষিত হয়েছে। এটি বাস্তব prediction বা WIN/LOSS নয়।';
+ }
+ async function fetchDkwinPeriod() {
+   if (liveFetchBusy || marketSelect.value !== 'DKWIN' || duration !== 60) return;
+   liveFetchBusy = true;
+   try {
+     const response = await fetch(API_URL + '?_=' + Date.now(), {cache:'no-store'});
+     if (!response.ok) throw new Error('HTTP ' + response.status);
+     const payload = await response.json();
+     const list = payload && payload.data && Array.isArray(payload.data.list) ? payload.data.list : [];
+     const latest = list[0];
+     if (!latest || !latest.issueNumber) throw new Error('Issue number missing');
+     const currentIssue = String(latest.issueNumber);
+     const nextIssue = (BigInt(currentIssue) + 1n).toString();
+     if(!records.some(r=>r.mode==='DKWIN_1M'&&r.period===nextIssue)){const stamp=new Date();addRecord({id:'K-'+nextIssue,mode:'DKWIN_1M',period:nextIssue,pair:'—',time:stamp.toLocaleString(),result:'OBSERVED',timestamp:stamp.toISOString()});}
+     periodLabel.textContent = 'DKWIN WINGO 1 MINUTE · NEXT PERIOD';
+     periodEl.textContent = nextIssue;
+     connectionStatus.textContent = 'DATA CONNECTION: LIVE API';
+     dataNotice.textContent = 'DKWIN API থেকে Period Number পাওয়া গেছে। History-তে OBSERVED হিসেবে রাখা হয়েছে। এটি কোনো Prediction বা WIN/LOSS ফলাফল নয়।'
+   } catch (error) {
+     periodLabel.textContent = 'LIVE PERIOD NUMBER';
+     periodEl.textContent = 'API UNAVAILABLE';
+     connectionStatus.textContent = 'DATA CONNECTION: UNAVAILABLE';
+     dataNotice.textContent = 'DKWIN API-তে সংযোগ করা যায়নি। নেটওয়ার্ক/CORS বা API সমস্যা হতে পারে। তাই কোনো অনুমানভিত্তিক Period Number দেখানো হচ্ছে না; আবার চেষ্টা করবে।';
+   } finally {
+     liveFetchBusy = false;
+   }
+ }
+ function updateMarketLabel() {
+   const market = marketSelect.value;
+   const minutes = duration / 60;
+   if(market==='DEMO'){document.querySelector('.bigword').textContent='DEMO';document.querySelector('.pred-label').textContent='SIMULATED DEMO SAMPLE';document.querySelector('.sub').textContent='RANDOM SAMPLE · NOT A BETTING SIGNAL';document.querySelector('.numbers').textContent='— —';document.querySelector('.confidence b').textContent='SIMULATION';}
+   else if(market==='DKWIN'){document.querySelector('.bigword').textContent='OBSERVE';document.querySelector('.pred-label').textContent='MARKET PERIOD OBSERVATION';document.querySelector('.sub').textContent='NO BETTING PREDICTION';document.querySelector('.numbers').textContent='— —';document.querySelector('.confidence b').textContent='NOT AVAILABLE';}
+   marketLabel.textContent = market + ' · ' + minutes + (minutes === 1 ? ' MINUTE' : ' MINUTES') + (market === 'DKWIN' && duration === 60 ? ' · LIVE PERIOD API' : ' · DEMO');
+   if (market === 'DKWIN' && duration === 60) {
+     periodLabel.textContent = 'DKWIN WINGO 1 MINUTE · NEXT PERIOD';
+     periodEl.textContent = 'CONNECTING…';
+     connectionStatus.textContent = 'DATA CONNECTION: CONNECTING';
+     dataNotice.textContent = 'DKWIN API থেকে শুধু Period Number নেওয়া হচ্ছে। এখানে কোনো betting prediction তৈরি বা দেখানো হবে না।'
+     fetchDkwinPeriod();
+   } else if (market === 'DKWIN') {
+     periodLabel.textContent = 'PERIOD NUMBER';
+     periodEl.textContent = 'NOT SUPPORTED';
+     connectionStatus.textContent = 'DATA CONNECTION: NOT AVAILABLE';
+     dataNotice.textContent = 'এই API শুধু DKWIN Wingo 1 Minute-এর জন্য। 3 বা 5 মিনিটের Period Number এখানে দেখানো হবে না।';
+   } else {
+     setDemoPeriod();
+   }
+ }
+ marketSelect.addEventListener('change', updateMarketLabel);
+ durationSelect.addEventListener('change', () => {
+   duration = Number(durationSelect.value);
+   seconds = duration;
+   updateMarketLabel();
+   updateTimer();
+ });
+ updateMarketLabel();
+ updateTimer();
+ window.setInterval(() => {
+   if (!(marketSelect.value === 'DKWIN' && duration === 60)) {
+     if(seconds>1) seconds--;
+     else {seconds=duration;if(marketSelect.value==='DEMO'){createDemoRound();demoRound++;setDemoPeriod();}else if(marketSelect.value==='AMARCLUB'){demoRound++;setDemoPeriod();}}
+   }
+   updateTimer();
+ }, 1000);
+ window.setInterval(fetchDkwinPeriod, 5000);
+})();
+</script>
+</body></html>
